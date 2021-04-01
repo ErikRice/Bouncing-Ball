@@ -2,24 +2,16 @@
 const ball = document.getElementById("ball");
 const width = ball.style.width;
 const height = ball.style.height;
+var positionX = 0;
+var positionY = 0;
 let velocityX = 7;
 let velocityY = 3;
-let positionX = 0;
-let positionY = 0;
 let ballMovesRight = true;
 let ballMovesDown = true;
-let ballColor = ['red', 'blue', 'purple', 'green', 'black', 'yellow'];
-// let randomInd = Math.floor(Math.random()*Math.floor(ballColor.length));
+let ballColor = ['red', 'blue'];
 
 
-
-function changeColor() {
-  for (i = 0; i < ballColor.length; i++) {
-    ball.style.background = ballColor[i];
-  }
-}
-
-function moveBall(){
+function moveBall() {
   if (ballMovesRight) {
     positionX = positionX + velocityX;
     ball.style.left = positionX + 'px';
@@ -34,18 +26,27 @@ function moveBall(){
         positionY = positionY - velocityY;
         ball.style.top = positionY + 'px';
   }
-  checkBoundaries(positionX, width, positionY, height);
-  color();
+  checkBoundaries();
+  changeColorOnBounce();
 }
 
-function checkBoundaries(){
-  if (positionX + width >= window.innerWidth || positionX == 0) {
+setInterval(moveBall,10);
+
+let checkBoundaries = function() {
+  if (width + positionX >= window.innerWidth || positionX == 0) {
     ballMovesRight = !ballMovesRight;
   } 
   
-  if (positionY + height >= window.innerHeight || positionY == 0) {
+  if (height + positionY >= window.innerHeight || positionY == 0) {
     ballMovesDown = !ballMovesDown;
   } 
 }
 
-setInterval(moveBall,8);
+let changeColorOnBounce = function() {
+  if (positionX >= window.innerWidth || positionX == 0) {
+    ball.style.background = ballColor[0];
+  }
+  if (positionY >= window.innerHeight || positionY == 0) {
+    ball.style.background = ballColor[1];
+  }
+}
